@@ -1,13 +1,28 @@
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from app.api.internal import router as internal_router
 from app.api.routes import router as api_router
 from app.config import settings
 
 logging.basicConfig(level=logging.INFO)
+
+
+class SPAStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        if response.status_code != 404:
+            return response
+
+        if "." in Path(path).name:
+            return response
+
+        return await super().get_response("index.html", scope)
+
 
 app = FastAPI(
     title="Price Hub API",
@@ -25,6 +40,10 @@ app.add_middleware(
 
 app.include_router(api_router)
 app.include_router(internal_router)
+
+client_dist = Path(__file__).resolve().parents[2] / "client_dist"
+if client_dist.exists():
+    app.mount("/", SPAStaticFiles(directory=client_dist, html=True), name="client")
 
 
 @app.get("/health")

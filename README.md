@@ -75,6 +75,22 @@ curl -X POST http://127.0.0.1:8001/internal/fetch \
 
 推荐免费方案：Cloudflare Pages（前端）+ Northflank（后端）+ Neon（数据库）+ GitHub Actions（定时抓价）
 
+### 单镜像部署（方案 3）
+
+项目根目录提供了多阶段 `Dockerfile`，会自动构建前端并由 FastAPI 同容器托管静态资源与 API。
+
+```bash
+docker build -t price-hub:latest .
+docker run -d --name price-hub \
+  -p 8080:8080 \
+  -e DATABASE_URL="postgresql://user:pass@host:5432/db?sslmode=require" \
+  -e CRON_SECRET="your-secret" \
+  -e CORS_ORIGINS="http://localhost:8080" \
+  price-hub:latest
+```
+
+访问：`http://localhost:8080`（前端）和 `http://localhost:8080/docs`（API 文档）。
+
 ## 数据源
 
 详见 [docs/data-sources.md](docs/data-sources.md)

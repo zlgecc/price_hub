@@ -1,5 +1,6 @@
 import logging
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -8,6 +9,7 @@ from starlette.staticfiles import StaticFiles
 
 from app.api.internal import router as internal_router
 from app.api.routes import router as api_router
+from app.bootstrap import bootstrap_database
 from app.config import settings
 
 logging.basicConfig(level=logging.INFO)
@@ -25,10 +27,17 @@ class SPAStaticFiles(StaticFiles):
         return await super().get_response("index.html", scope)
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    bootstrap_database()
+    yield
+
+
 app = FastAPI(
     title="Price Hub API",
     description="每日价格聚合服务 — 黄金、油价、生活必需品、大宗商品、汇率、股票与科技",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(

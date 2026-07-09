@@ -49,7 +49,7 @@ def upgrade() -> None:
         sa.Column("record_date", sa.Date(), nullable=False),
         sa.Column("price", sa.Numeric(precision=18, scale=4), nullable=False),
         sa.Column("change_pct", sa.Numeric(precision=8, scale=4), nullable=True),
-        sa.Column("fetched_at", sa.DateTime(), server_default=sa.text("now()"), nullable=False),
+        sa.Column("fetched_at", sa.DateTime(), server_default=sa.text("CURRENT_TIMESTAMP"), nullable=False),
         sa.ForeignKeyConstraint(["item_id"], ["price_items.id"]),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("item_id", "record_date", name="uq_item_record_date"),

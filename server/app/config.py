@@ -1,10 +1,19 @@
+import os
+
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def default_database_url() -> str:
+    if os.getenv("VERCEL"):
+        return "sqlite:////tmp/price_hub.db"
+    return "sqlite:///./price_hub.db"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
-    database_url: str = "postgresql://pricehub:pricehub@localhost:5432/price_hub"
+    database_url: str = Field(default_factory=default_database_url)
     cron_secret: str = "dev-secret"
     fred_api_key: str = ""
     tianapi_key: str = ""

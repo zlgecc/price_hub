@@ -21,10 +21,19 @@ price_hub/
 - Python 3.12+
 - Node.js 20+
 
-### 1. 启动数据库
+### 1. 启动数据库（可选，使用 Postgres 时）
 
 ```bash
 docker compose up -d postgres
+```
+
+默认本地开发使用 SQLite（`sqlite:///./price_hub.db`），启动后端时会自动建表并种子数据，无需手动执行 `alembic` / `seed`。
+
+若使用 Postgres，设置 `DATABASE_URL=postgresql://pricehub:pricehub@localhost:5432/price_hub` 后执行：
+
+```bash
+alembic upgrade head
+python -m app.seed
 ```
 
 ### 2. 后端
@@ -33,8 +42,6 @@ docker compose up -d postgres
 cd server
 cp .env.example .env
 pip install -r requirements.txt
-alembic upgrade head
-python -m app.seed
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8001
 ```
 
@@ -64,7 +71,7 @@ curl -X POST http://127.0.0.1:8001/internal/fetch \
 
 | 变量 | 说明 | 必填 |
 |------|------|------|
-| `DATABASE_URL` | PostgreSQL 连接串 | 是 |
+| `DATABASE_URL` | 数据库连接串，默认 SQLite | 否 |
 | `CRON_SECRET` | 定时任务鉴权密钥 | 是 |
 | `FRED_API_KEY` | FRED API（国际大宗/WTI，可选；无 Key 走公开 CSV） | 可选 |
 | `TIANAPI_KEY` | 天聚数行（国内省油价，可选；无 Key 走东方财富） | 可选 |
@@ -74,11 +81,11 @@ curl -X POST http://127.0.0.1:8001/internal/fetch \
 
 详见 [docs/deployment.md](docs/deployment.md)
 
-**推荐（最简单）**：Vercel（前端 + Python API 同域）+ Neon（数据库）+ GitHub Actions（定时抓价）
+**推荐（最快上线）**：Vercel + SQLite（自动建表/种子数据，无需 Neon）
 
 1. 在 [Vercel](https://vercel.com/) 导入 GitHub 仓库
-2. 配置环境变量 `DATABASE_URL`、`CRON_SECRET`、`CORS_ORIGINS`
-3. 部署后访问 `https://你的项目.vercel.app` 即可打开页面
+2. 配置环境变量 `CRON_SECRET`、`CORS_ORIGINS`
+3. 部署后访问 `https://你的项目.vercel.app`，再手动触发一次抓价
 
 ### 单镜像部署（Docker）
 

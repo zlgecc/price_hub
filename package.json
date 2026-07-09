@@ -2,6 +2,6 @@
   "name": "price-hub",
   "private": true,
   "scripts": {
-    "build": "npm run build --prefix client"
+    "build": "npm run build --prefix client && rm -rf public && mkdir -p public && cp -r client/dist/. public/"
   }
 }

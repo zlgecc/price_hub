@@ -6,6 +6,7 @@
 
 ```
 price_hub/
+├── api/        # Vercel Python 入口
 ├── client/     # React 前端
 ├── server/     # FastAPI 后端
 ├── docs/       # 文档
@@ -73,9 +74,13 @@ curl -X POST http://127.0.0.1:8001/internal/fetch \
 
 详见 [docs/deployment.md](docs/deployment.md)
 
-推荐免费方案：Cloudflare Pages（前端）+ Northflank（后端）+ Neon（数据库）+ GitHub Actions（定时抓价）
+**推荐（最简单）**：Vercel（前端 + Python API 同域）+ Neon（数据库）+ GitHub Actions（定时抓价）
 
-### 单镜像部署（方案 3）
+1. 在 [Vercel](https://vercel.com/) 导入 GitHub 仓库
+2. 配置环境变量 `DATABASE_URL`、`CRON_SECRET`、`CORS_ORIGINS`
+3. 部署后访问 `https://你的项目.vercel.app` 即可打开页面
+
+### 单镜像部署（Docker）
 
 项目根目录提供了多阶段 `Dockerfile`，会自动构建前端并由 FastAPI 同容器托管静态资源与 API。
 

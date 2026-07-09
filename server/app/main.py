@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -41,11 +42,13 @@ app.add_middleware(
 app.include_router(api_router)
 app.include_router(internal_router)
 
-client_dist = Path(__file__).resolve().parents[2] / "client_dist"
-if client_dist.exists():
-    app.mount("/", SPAStaticFiles(directory=client_dist, html=True), name="client")
-
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+client_dist = Path(__file__).resolve().parents[2] / "client_dist"
+serve_client_static = os.getenv("SERVE_CLIENT_STATIC", "").lower() in ("1", "true", "yes")
+if serve_client_static and client_dist.exists():
+    app.mount("/", SPAStaticFiles(directory=client_dist, html=True), name="client")

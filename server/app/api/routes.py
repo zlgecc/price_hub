@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.price_sync import ensure_price_data
 from app.schemas.price import CategoryOut, DashboardOut, ItemDetailOut, ItemOut
 from app.services.price_service import get_dashboard, get_item_detail, list_categories, list_items
 
@@ -9,17 +10,19 @@ router = APIRouter(prefix="/api", tags=["prices"])
 
 
 @router.get("/categories", response_model=list[CategoryOut])
-def get_categories(db: Session = Depends(get_db)):
+async def get_categories(db: Session = Depends(get_db)):
+    await ensure_price_data()
     return list_categories(db)
 
 
 @router.get("/items", response_model=list[ItemOut])
-def get_items(
+async def get_items(
     category: str | None = Query(None),
     region: str | None = Query(None),
     search: str | None = Query(None),
     db: Session = Depends(get_db),
 ):
+    await ensure_price_data()
     return list_items(db, category=category, region=region, search=search)
 
 
@@ -36,5 +39,6 @@ def get_item_history(
 
 
 @router.get("/dashboard", response_model=DashboardOut)
-def dashboard(db: Session = Depends(get_db)):
+async def dashboard(db: Session = Depends(get_db)):
+    await ensure_price_data()
     return get_dashboard(db)

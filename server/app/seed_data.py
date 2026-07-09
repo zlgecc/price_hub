@@ -612,3 +612,21 @@ SGE_SYMBOLS = {
     "silver_sge_ag9999": "Ag99.99",
     "platinum_sge_pt9995": "Pt99.95",
 }
+
+# Fallback prices used when live fetch is unavailable (e.g. first Vercel cold start).
+SEED_DEMO_PRICES = [
+    {"item_code": "gold_sge_au9999", "price": "612.50", "change_pct": "0.35"},
+    {"item_code": "gold_intl_usd", "price": "2650.30", "change_pct": "0.42"},
+    {"item_code": "oil_wti", "price": "78.20", "change_pct": "-1.25"},
+    {"item_code": "oil_gasoline_national", "price": "7.86", "change_pct": "0.12"},
+    {"item_code": "pork", "price": "24.80", "change_pct": "-0.60"},
+    {"item_code": "eggs", "price": "9.45", "change_pct": "0.80"},
+    {"item_code": "copper", "price": "9850.00", "change_pct": "0.55"},
+    {"item_code": "copper_cn", "price": "72800.00", "change_pct": "0.30"},
+    {"item_code": "usd_cny", "price": "724.56", "change_pct": "0.05"},
+    {"item_code": "eur_cny", "price": "781.23", "change_pct": "-0.08"},
+    {"item_code": "idx_shanghai", "price": "3285.12", "change_pct": "0.72"},
+    {"item_code": "idx_nasdaq100", "price": "18234.50", "change_pct": "1.05"},
+    {"item_code": "stock_nvda", "price": "128.50", "change_pct": "2.10"},
+    {"item_code": "stock_amd", "price": "162.30", "change_pct": "-0.45"},
+]

@@ -27,8 +27,9 @@
 > 前端与 API 同域，**不要**设置 `VITE_API_BASE_URL`。
 
 4. 点击 Deploy，完成后访问 `https://你的项目.vercel.app`。
-5. 若页面显示 Not Found，确认 Vercel 项目 **Root Directory** 为仓库根目录（不是 `client/`），然后 **Redeploy**。
-6. 首次部署后，在 GitHub Actions 手动运行 `Daily Price Fetch`，或执行：
+5. 首次访问会自动抓价；若外部数据源不可用，会写入演示价格，确保页面有数据。
+6. 若页面显示 Not Found，确认 Vercel 项目 **Root Directory** 为仓库根目录（不是 `client/`），然后 **Redeploy**。
+7. 也可手动触发抓价：
 
 ```bash
 curl -X POST https://你的项目.vercel.app/internal/fetch \

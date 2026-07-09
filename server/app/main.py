@@ -11,6 +11,7 @@ from app.api.internal import router as internal_router
 from app.api.routes import router as api_router
 from app.bootstrap import bootstrap_database
 from app.config import settings
+from app.price_sync import ensure_price_data
 
 logging.basicConfig(level=logging.INFO)
 
@@ -30,6 +31,7 @@ class SPAStaticFiles(StaticFiles):
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     bootstrap_database()
+    await ensure_price_data()
     yield
 
 

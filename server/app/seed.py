@@ -1,9 +1,12 @@
 """Seed database with categories and price items."""
 
+from datetime import date
+from decimal import Decimal
+
 from sqlalchemy.orm import Session
 
-from app.models import PriceCategory, PriceItem
-from app.seed_data import SEED_CATEGORIES, SEED_ITEMS
+from app.models import PriceCategory, PriceItem, PriceRecord
+from app.seed_data import SEED_CATEGORIES, SEED_DEMO_PRICES, SEED_ITEMS
 
 
 def seed(db: Session) -> None:
@@ -43,6 +46,35 @@ def seed(db: Session) -> None:
         )
 
     db.commit()
+
+
+def seed_demo_prices(db: Session) -> int:
+    today = date.today()
+    count = 0
+
+    for row in SEED_DEMO_PRICES:
+        item = db.query(PriceItem).filter_by(code=row["item_code"]).first()
+        if not item:
+            continue
+
+        existing = (
+            db.query(PriceRecord).filter_by(item_id=item.id, record_date=today).first()
+        )
+        if existing:
+            continue
+
+        db.add(
+            PriceRecord(
+                item_id=item.id,
+                record_date=today,
+                price=Decimal(row["price"]),
+                change_pct=Decimal(row["change_pct"]) if row.get("change_pct") is not None else None,
+            )
+        )
+        count += 1
+
+    db.commit()
+    return count
 
 
 if __name__ == "__main__":

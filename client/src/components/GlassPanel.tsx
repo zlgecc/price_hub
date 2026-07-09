@@ -16,7 +16,7 @@ const paddingMap = {
 export function GlassPanel({ children, className = "", padding = "md" }: Props) {
   return (
     <section
-      className={`rounded-2xl border border-white/70 bg-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.06)] backdrop-blur-2xl ${paddingMap[padding]} ${className}`}
+      className={`rounded-2xl border border-white/10 bg-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl ${paddingMap[padding]} ${className}`}
     >
       {children}
     </section>

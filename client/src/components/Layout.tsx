@@ -12,15 +12,15 @@ export function Layout() {
       </div>
 
       <div className="relative flex min-h-screen flex-col">
-        <header className="sticky top-0 z-20 border-b border-white/60 bg-white/55 backdrop-blur-2xl">
+        <header className="sticky top-0 z-20 border-b border-white/8 bg-black/40 backdrop-blur-2xl">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
             <Link to="/" className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-sm font-bold text-white shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-sm font-bold text-white shadow-[0_0_20px_rgba(99,102,241,0.4)]">
                 PH
               </span>
-              <span className="text-lg font-semibold tracking-tight text-slate-900">
+              <span className="text-lg font-semibold tracking-tight text-white">
                 价格中心
-                <span className="ml-2 text-sm font-normal text-slate-400">Price Hub</span>
+                <span className="ml-2 text-sm font-normal text-slate-500">Price Hub</span>
               </span>
             </Link>
             <nav className="flex items-center gap-1">
@@ -41,7 +41,7 @@ export function Layout() {
           <Outlet />
         </main>
 
-        <footer className="border-t border-white/50 bg-white/40 py-6 text-center text-xs text-slate-400 backdrop-blur-xl">
+        <footer className="border-t border-white/8 bg-black/30 py-6 text-center text-xs text-slate-500 backdrop-blur-xl">
           数据来源：AKShare · FRED · FreeGoldAPI · TianAPI · 每日自动更新
         </footer>
       </div>

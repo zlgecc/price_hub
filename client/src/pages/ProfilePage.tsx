@@ -55,7 +55,7 @@ export function ProfilePage() {
                     key={item.code}
                     type="button"
                     onClick={() => remove(item.code)}
-                    className="glass-button text-xs text-red-500 hover:text-red-600"
+                    className="glass-button text-xs text-red-400 hover:text-red-300"
                   >
                     移除 {item.name}
                   </button>

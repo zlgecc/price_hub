@@ -32,7 +32,7 @@ export function HomePage() {
   if (error) {
     return (
       <GlassPanel>
-        <p className="text-sm text-red-600">加载失败: {error}</p>
+        <p className="text-sm text-red-400">加载失败: {error}</p>
       </GlassPanel>
     );
   }
@@ -57,19 +57,19 @@ export function HomePage() {
           }
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-slate-200/60 bg-white/50 px-5 py-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">分类总数</p>
-            <p className="mt-2 text-3xl font-semibold tabular-nums text-slate-900">
+          <div className="glass-stat-card">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">分类总数</p>
+            <p className="mt-2 text-3xl font-semibold tabular-nums text-white">
               {dashboard.categories.length}
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200/60 bg-white/50 px-5 py-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">品种总数</p>
-            <p className="mt-2 text-3xl font-semibold tabular-nums text-slate-900">{totalItems}</p>
+          <div className="glass-stat-card">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">品种总数</p>
+            <p className="mt-2 text-3xl font-semibold tabular-nums text-white">{totalItems}</p>
           </div>
-          <div className="rounded-xl border border-slate-200/60 bg-white/50 px-5 py-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">数据状态</p>
-            <p className="mt-2 text-lg font-medium text-emerald-600">实时同步</p>
+          <div className="glass-stat-card">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">数据状态</p>
+            <p className="mt-2 text-lg font-medium text-emerald-400">实时同步</p>
           </div>
         </div>
       </GlassPanel>
@@ -78,11 +78,11 @@ export function HomePage() {
         <GlassPanel key={cat.category_code}>
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-semibold text-slate-900">
+              <h2 className="text-xl font-semibold text-white">
                 <span className="mr-2">{cat.icon}</span>
                 {cat.category_name}
               </h2>
-              <p className="mt-1 text-sm text-slate-500">{cat.item_count} 个品种</p>
+              <p className="mt-1 text-sm text-slate-400">{cat.item_count} 个品种</p>
             </div>
             <Link to={`/catalog?category=${cat.category_code}`} className="glass-button">
               查看全部

@@ -17,7 +17,7 @@ interface Props {
 export function TrendChart({ history, unit }: Props) {
   if (!history.length) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-200 text-slate-400">
+      <div className="flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-200/80 bg-white/30 text-sm text-slate-400">
         暂无历史数据
       </div>
     );
@@ -29,13 +29,30 @@ export function TrendChart({ history, unit }: Props) {
   }));
 
   return (
-    <div className="h-72 w-full rounded-xl border border-slate-200 bg-white p-4">
+    <div className="h-72 w-full rounded-xl border border-slate-200/60 bg-white/40 p-4">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-          <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#94a3b8" />
-          <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" domain={["auto", "auto"]} />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.25)" vertical={false} />
+          <XAxis
+            dataKey="date"
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <YAxis
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={false}
+            tickLine={false}
+            domain={["auto", "auto"]}
+          />
           <Tooltip
+            contentStyle={{
+              borderRadius: "12px",
+              border: "1px solid rgba(226, 232, 240, 0.8)",
+              background: "rgba(255, 255, 255, 0.9)",
+              backdropFilter: "blur(12px)",
+              boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+            }}
             formatter={(value) => {
               const num = Number(value);
               return [`${Number.isFinite(num) ? num : value} ${unit ?? ""}`, "价格"];
@@ -45,10 +62,10 @@ export function TrendChart({ history, unit }: Props) {
           <Line
             type="monotone"
             dataKey="price"
-            stroke="#2563eb"
-            strokeWidth={2}
+            stroke="#4f46e5"
+            strokeWidth={2.5}
             dot={false}
-            activeDot={{ r: 4 }}
+            activeDot={{ r: 4, fill: "#4f46e5", strokeWidth: 0 }}
           />
         </LineChart>
       </ResponsiveContainer>

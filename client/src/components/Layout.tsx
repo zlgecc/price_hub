@@ -1,32 +1,50 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+
+const navClass = ({ isActive }: { isActive: boolean }) =>
+  `glass-nav-link ${isActive ? "glass-nav-link--active" : ""}`;
 
 export function Layout() {
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          <Link to="/" className="text-xl font-bold text-slate-900">
-            价格中心 <span className="text-blue-600">Price Hub</span>
-          </Link>
-          <nav className="flex gap-4 text-sm font-medium">
-            <Link to="/" className="text-slate-600 hover:text-blue-600">
-              首页
+    <>
+      <div className="app-background" aria-hidden="true">
+        <div className="blur-orb blur-orb--violet" />
+        <div className="blur-orb blur-orb--emerald" />
+      </div>
+
+      <div className="relative flex min-h-screen flex-col">
+        <header className="sticky top-0 z-20 border-b border-white/60 bg-white/55 backdrop-blur-2xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+            <Link to="/" className="flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-sm font-bold text-white shadow-sm">
+                PH
+              </span>
+              <span className="text-lg font-semibold tracking-tight text-slate-900">
+                价格中心
+                <span className="ml-2 text-sm font-normal text-slate-400">Price Hub</span>
+              </span>
             </Link>
-            <Link to="/catalog" className="text-slate-600 hover:text-blue-600">
-              价格目录
-            </Link>
-            <Link to="/profile" className="text-slate-600 hover:text-blue-600">
-              个人中心
-            </Link>
-          </nav>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <Outlet />
-      </main>
-      <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-400">
-        数据来源：AKShare · FRED · FreeGoldAPI · TianAPI · 每日自动更新
-      </footer>
-    </div>
+            <nav className="flex items-center gap-1">
+              <NavLink to="/" end className={navClass}>
+                首页
+              </NavLink>
+              <NavLink to="/catalog" className={navClass}>
+                价格目录
+              </NavLink>
+              <NavLink to="/profile" className={navClass}>
+                个人中心
+              </NavLink>
+            </nav>
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
+          <Outlet />
+        </main>
+
+        <footer className="border-t border-white/50 bg-white/40 py-6 text-center text-xs text-slate-400 backdrop-blur-xl">
+          数据来源：AKShare · FRED · FreeGoldAPI · TianAPI · 每日自动更新
+        </footer>
+      </div>
+    </>
   );
 }

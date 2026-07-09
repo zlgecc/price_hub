@@ -1,5 +1,99 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: light;
+}
+
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply min-h-screen text-slate-900 antialiased;
+  background: #eef1f8;
+}
+
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 35%, #f1f5f9 70%, #faf5ff 100%);
+}
+
+.app-background::before,
+.app-background::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.app-background::before {
+  top: -8rem;
+  right: -4rem;
+  width: 28rem;
+  height: 28rem;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
+}
+
+.app-background::after {
+  bottom: -6rem;
+  left: -6rem;
+  width: 32rem;
+  height: 32rem;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.28) 0%, transparent 70%);
+}
+
+.app-background .blur-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.app-background .blur-orb--violet {
+  top: 40%;
+  left: 35%;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 70%);
+}
+
+.app-background .blur-orb--emerald {
+  top: 12%;
+  left: 8%;
+  width: 18rem;
+  height: 18rem;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.18) 0%, transparent 70%);
+}
+
+.glass-nav-link {
+  @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white/50 hover:text-indigo-600;
+}
+
+.glass-nav-link--active {
+  @apply bg-white/70 text-indigo-600 shadow-sm;
+}
+
+.glass-input {
+  @apply rounded-xl border border-slate-200/70 bg-white/60 px-4 py-2.5 text-sm text-slate-800 shadow-sm backdrop-blur-md transition focus:border-indigo-300 focus:bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-100;
+}
+
+.glass-select {
+  @apply rounded-xl border border-slate-200/70 bg-white/60 px-4 py-2.5 text-sm text-slate-800 shadow-sm backdrop-blur-md transition focus:border-indigo-300 focus:bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-100;
+}
+
+.glass-button {
+  @apply inline-flex items-center justify-center rounded-xl border border-slate-200/70 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-md transition hover:bg-white hover:text-indigo-600;
+}
+
+.glass-button--primary {
+  @apply border-indigo-200/80 bg-indigo-600 text-white hover:bg-indigo-500 hover:text-white;
+}
+
+.glass-button--active {
+  @apply border-indigo-200/80 bg-indigo-600 text-white shadow-sm;
+}
+
+.loading-shimmer {
+  @apply animate-pulse rounded-xl bg-white/50;
 }

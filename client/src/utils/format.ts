@@ -26,7 +26,7 @@ export function formatChange(pct: NumericInput): string {
 export function changeColor(pct: NumericInput): string {
   const num = toNumber(pct);
   if (num == null) return "text-slate-500";
-  if (num > 0) return "text-red-600";
-  if (num < 0) return "text-green-600";
+  if (num > 0) return "text-red-400";
+  if (num < 0) return "text-emerald-400";
   return "text-slate-500";
 }

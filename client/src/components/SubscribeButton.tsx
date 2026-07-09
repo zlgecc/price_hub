@@ -12,10 +12,10 @@ export function SubscribeButton({ code }: Props) {
     <button
       type="button"
       onClick={() => toggle(code)}
-      className={`rounded-lg px-3 py-1 text-xs font-medium transition ${
+      className={`rounded-xl border px-3 py-1.5 text-xs font-medium transition ${
         subscribed
-          ? "bg-amber-100 text-amber-700 hover:bg-amber-200"
-          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+          ? "border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20"
+          : "border-white/10 bg-white/5 text-slate-400 hover:border-indigo-500/30 hover:bg-white/10 hover:text-indigo-300"
       }`}
     >
       {subscribed ? "已订阅" : "订阅"}

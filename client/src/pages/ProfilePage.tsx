@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getItems } from "../api/client";
-import { PriceCard } from "../components/PriceCard";
+import { GlassPanel } from "../components/GlassPanel";
+import { PageHeader } from "../components/PageHeader";
+import { PriceTable } from "../components/PriceTable";
 import { useSubscriptions } from "../hooks/useSubscriptions";
 import type { PriceItem } from "../types";
 
@@ -23,43 +25,45 @@ export function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">个人中心</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          订阅数据保存在浏览器 localStorage（MVP 阶段无需登录）
-        </p>
-      </div>
+      <GlassPanel padding="lg">
+        <PageHeader
+          title="个人中心"
+          description="订阅数据保存在浏览器 localStorage（MVP 阶段无需登录）"
+        />
+      </GlassPanel>
 
       {subscriptions.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-200 py-16 text-center">
+        <GlassPanel className="text-center">
           <p className="text-slate-500">你还没有订阅任何价格</p>
-          <Link
-            to="/catalog"
-            className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-          >
-            去价格目录看看 →
+          <Link to="/catalog" className="glass-button glass-button--primary mt-6 inline-flex">
+            去价格目录看看
           </Link>
-        </div>
-      ) : loading ? (
-        <p className="text-slate-500">加载中...</p>
+        </GlassPanel>
       ) : (
-        <div className="space-y-4">
-          <p className="text-sm text-slate-500">已订阅 {subscriptions.length} 个品种</p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <div key={item.code} className="relative">
-                <PriceCard item={item} showSubscribe={false} />
-                <button
-                  type="button"
-                  onClick={() => remove(item.code)}
-                  className="absolute right-3 top-3 rounded bg-white/80 px-2 py-0.5 text-xs text-red-500 hover:bg-red-50"
-                >
-                  移除
-                </button>
-              </div>
-            ))}
+        <GlassPanel>
+          <div className="mb-5 flex items-center justify-between">
+            <p className="text-sm text-slate-500">已订阅 {subscriptions.length} 个品种</p>
           </div>
-        </div>
+          {loading ? (
+            <div className="loading-shimmer h-48" />
+          ) : (
+            <div className="space-y-2">
+              <PriceTable items={items} showSubscribe={false} />
+              <div className="flex flex-wrap gap-2 pt-2">
+                {items.map((item) => (
+                  <button
+                    key={item.code}
+                    type="button"
+                    onClick={() => remove(item.code)}
+                    className="glass-button text-xs text-red-400 hover:text-red-300"
+                  >
+                    移除 {item.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </GlassPanel>
       )}
     </div>
   );

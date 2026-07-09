@@ -1,51 +1,40 @@
 # 部署指南
 
-## 推荐方案：Vercel 单项目（最简单）
+## 推荐方案：Vercel + SQLite（最快上线）
 
-前端静态页 + Python API 部署在同一个 Vercel 项目，访问一个域名即可打开页面。
+无需单独申请 Postgres，应用启动时会自动建表并写入种子数据。
 
 | 组件 | 服务 | 说明 |
 |------|------|------|
 | 前端 + API | Vercel | `client/dist` 静态资源 + `api/index.py` FastAPI |
-| 数据库 | Neon | 0.5GB 永久免费 Postgres |
+| 数据库 | SQLite | 默认 `sqlite:////tmp/price_hub.db`（Vercel 自动检测） |
 | 定时任务 | GitHub Actions | 每日 POST 触发抓价 |
 
-### 1. 准备数据库（Neon）
-
-1. 注册 https://neon.tech/
-2. 创建项目，复制连接串：
-   `postgresql://user:pass@ep-xxx.region.aws.neon.tech/neondb?sslmode=require`
-3. 本地或 CI 执行一次性初始化：
-
-```bash
-cd server
-pip install -r requirements.txt
-export DATABASE_URL="postgresql://..."
-alembic upgrade head
-python -m app.seed
-```
-
-### 2. 部署到 Vercel
+### 1. 部署到 Vercel
 
 1. 注册 https://vercel.com/ ，导入 GitHub 仓库 `zlgecc/price_hub`
-2. 保持默认构建设置（项目根目录已有 `vercel.json`）：
-   - Build command: `npm run build`
-   - Output directory: `client/dist`
+2. 保持默认构建设置（项目根目录已有 `vercel.json`）
 3. 在 Vercel 项目 **Settings → Environment Variables** 添加：
 
-| 变量 | 值 |
-|------|-----|
-| `DATABASE_URL` | Neon 连接串 |
-| `CRON_SECRET` | 随机密钥 |
-| `CORS_ORIGINS` | `https://你的项目.vercel.app` |
-| `FRED_API_KEY` | 可选 |
-| `TIANAPI_KEY` | 可选 |
+| 变量 | 值 | 必填 |
+|------|-----|------|
+| `CRON_SECRET` | 随机密钥 | 是 |
+| `CORS_ORIGINS` | `https://你的项目.vercel.app` | 是 |
+| `DATABASE_URL` | `sqlite:////tmp/price_hub.db` | 否（Vercel 上会自动使用） |
+| `FRED_API_KEY` | FRED Key | 否 |
+| `TIANAPI_KEY` | 天聚数行 Key | 否 |
 
-> 前端与 API 同域，**不要**设置 `VITE_API_BASE_URL`，页面会通过相对路径访问 `/api/*`。
+> 前端与 API 同域，**不要**设置 `VITE_API_BASE_URL`。
 
-4. 点击 Deploy，完成后访问 `https://你的项目.vercel.app` 即可看到页面。
+4. 点击 Deploy，完成后访问 `https://你的项目.vercel.app`。
+5. 首次部署后，在 GitHub Actions 手动运行 `Daily Price Fetch`，或执行：
 
-### 3. GitHub Actions 定时抓价
+```bash
+curl -X POST https://你的项目.vercel.app/internal/fetch \
+  -H "Authorization: Bearer <CRON_SECRET>"
+```
+
+### 2. GitHub Actions 定时抓价
 
 在仓库 Settings → Secrets 中添加：
 
@@ -54,11 +43,24 @@ python -m app.seed
 | `CRON_SECRET` | 与 Vercel 相同 |
 | `API_BASE_URL` | `https://你的项目.vercel.app` |
 
-### 注意事项
+### SQLite 注意事项
 
-- Vercel Python 为 Serverless，冷启动会有几秒延迟。
-- `/internal/fetch` 抓价任务受函数超时限制（默认 60 秒，可在 `vercel.json` 调整）。
-- 依赖包含 `pandas` / `akshare`，部署包较大；若构建失败，可考虑升级 Vercel 套餐或改用 Docker 部署。
+- Vercel Serverless 的 `/tmp` 目录在实例回收后可能清空，价格历史不保证永久保留。
+- 适合先快速验证页面和 API；正式上线建议切换到 Postgres（Neon）。
+
+---
+
+## 备选方案：Vercel + Neon Postgres
+
+需要持久化价格历史时使用。将 `DATABASE_URL` 设为 Neon 连接串，部署前执行：
+
+```bash
+cd server
+pip install -r requirements.txt
+export DATABASE_URL="postgresql://..."
+alembic upgrade head
+python -m app.seed
+```
 
 ---
 

@@ -15,7 +15,7 @@ export function Layout() {
         <header className="sticky top-0 z-20 border-b border-white/8 bg-black/40 backdrop-blur-2xl">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
             <Link to="/" className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-sm font-bold text-white shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-sm font-bold text-white">
                 PH
               </span>
               <span className="text-lg font-semibold tracking-tight text-white">

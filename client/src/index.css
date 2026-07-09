@@ -71,19 +71,19 @@ body {
 }
 
 .glass-nav-link--active {
-  @apply bg-white/10 text-white shadow-sm;
+  @apply bg-white/10 text-white;
 }
 
 .glass-input {
-  @apply rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-100 shadow-sm backdrop-blur-md transition placeholder:text-slate-500 focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none focus:ring-2 focus:ring-indigo-500/20;
+  @apply rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-100 backdrop-blur-md transition placeholder:text-slate-500 focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none focus:ring-2 focus:ring-indigo-500/20;
 }
 
 .glass-select {
-  @apply rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-100 shadow-sm backdrop-blur-md transition focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none focus:ring-2 focus:ring-indigo-500/20;
+  @apply rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-100 backdrop-blur-md transition focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none focus:ring-2 focus:ring-indigo-500/20;
 }
 
 .glass-button {
-  @apply inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 shadow-sm backdrop-blur-md transition hover:border-white/20 hover:bg-white/10 hover:text-white;
+  @apply inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 backdrop-blur-md transition hover:border-white/20 hover:bg-white/10 hover:text-white;
 }
 
 .glass-button--primary {
@@ -91,7 +91,7 @@ body {
 }
 
 .glass-button--active {
-  @apply border-indigo-500/40 bg-indigo-600 text-white shadow-sm;
+  @apply border-indigo-500/40 bg-indigo-600 text-white;
 }
 
 .glass-stat-card {
